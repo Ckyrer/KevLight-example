@@ -17,11 +17,17 @@ header h1 {
 
 .main-column {
     margin-top: 100px;
+    margin-bottom: 350px;
     margin-left: 25%;
 
     font-size: 12pt;
 
     width: 40%;
+}
+
+.main-column img {
+    border: 1px solid black;
+    margin-left: 120px;
 }
 
 .main-column h2 {
@@ -31,4 +37,12 @@ header h1 {
 .main-column p {
     text-indent: 30px;
     font-weight: 500;
+}
+
+.main-column li {
+    text-indent: 50px;
+}
+
+footer {
+
 }

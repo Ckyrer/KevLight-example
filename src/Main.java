@@ -26,7 +26,7 @@ public class Main {
             resp.sendResponse(
                     new FileInputStream(file),
                     "200 OK",
-                    new String[] {"Content-Type: image/jpeg"},
+                    new String[] {"Content-Type: image/png"},
                     2048
             );
         } else {
@@ -34,7 +34,7 @@ public class Main {
         }
     }
 
-    @KL404Handler
+//    @KL404Handler
     @KLRequestHandler(request = "404")
     public void on404(Responser resp) {
         resp.sendString("Error 404 :(");

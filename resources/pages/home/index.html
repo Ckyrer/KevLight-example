@@ -27,35 +27,46 @@
         </p>
         
         <h2>3 Hello, World!</h2>
+        <p>Создадим Main.java со следующим содержимым:</p>
+        <pre>
+            import ru.kvdl.kevlight.Responser;
+            import ru.kvdl.kevlight.Server;
+            import ru.kvdl.kevlight.annotations.KLRequestHandler;
+
+            import java.io.File;
+
+            public class Main {
+                public static void main(String[] args) {
+                    Server server = new Server(new Main(), 5050);
+                    server.start();
+                }
+            }
+        </pre>
+        <p>При запуске этого кода запустится сервер, использующий порт 5050. Однако при попытке зайти на localhost:5050 мы получим ошибку 404.</p>
+        <img src="/media/on404.png">
+        <p>Всё верно, ведь мы ещё не добавили в наш класс обработчик запроса, он выглядит так:</p>
+        <pre>
+            @KLRequestHandler(request = "")
+            public void homePage(Responser resp) {
+                resp.sendString("Hello, World!");
+            }
+        </pre>
         <p>
-            Создадим Main.java со следующим содержимым:
-            <pre>
-                import ru.kvdl.kevlight.Responser;
-                import ru.kvdl.kevlight.Server;
-                import ru.kvdl.kevlight.annotations.KLRequestHandler;
-
-                import java.io.File;
-
-                public class Main {
-                    public static void main(String[] args) {
-                        Server server = new Server(new Main(), 5050);
-                        server.start();
-                    }
-                }
-            </pre>
-            <p>При запуске этого кода запустится сервер, использующий порт 5050. Однако при попытке зайти на localhost:5050 мы получим ошибку 404.</p>
-            <img src="/media/404.jpeg" alt="">
-            <p>Всё верно, ведь мы ещё не добавили в наш класс обработчик запроса, он выглядит так:</p>
-            <pre>
-                @KLRequestHandler(request = "")
-                public void homePage(Responser resp) {
-                    resp.sendString("Hello, World!");
-                }
-            </pre>
-            <p>@KLRequestHandler - аннотация, которая указывает на то, что метод нужно вызывать при запросе request</p>
-            
+            @KLRequestHandler - аннотация, которая указывает на то, что метод нужно вызывать при определённом запросе
+           <li>String request - запрос, при котором вызывается метод</li>
+           <li>String requestType - тип запроса(по умолчанию "GET")</li>
+           <li>boolean startsWith - если true, то метод будет вызываться при запросах, которые начинаются с request.
+            К примеру, если request="media" и startsWith=true, то метод будет вызываться при запросах "media", "media/pages", "media/images/image.png"</li>
         </p>
+        <p>
+            Если зайдём на сайт теперь, то увидим ожидаемый результат:
+        </p>
+        <img src="/media/helloworld.png">
 
     </div>
+
+    <footer>
+
+    </footer>
 </body>
 </html>

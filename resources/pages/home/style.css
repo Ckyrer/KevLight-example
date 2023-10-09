@@ -1,0 +1,34 @@
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: orange;
+    height: 75px;
+}
+
+header h1 {
+    text-align: center;
+    margin-right: 20%;
+    padding-top: 20px;
+}
+
+.main-column {
+    margin-top: 100px;
+    margin-left: 25%;
+
+    font-size: 12pt;
+
+    width: 40%;
+}
+
+.main-column h2 {
+    font-weight: bold;
+}
+
+.main-column p {
+    text-indent: 30px;
+    font-weight: 500;
+}

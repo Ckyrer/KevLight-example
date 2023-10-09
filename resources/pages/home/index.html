@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Документация</title>
+</head>
+<body>
+    <header>
+        <h1>Документация KevLight</h1>
+        <p></p>
+    </header>
+    <div class="main-column">
+        <h2>1 Что такое KevLight</h2>
+        <p>Kevlight - это простой написанный на Java фреймворк.</p>
+        <p>
+            Уже существует много фреймворков на Java, однако среди них нет простого и легкодоступного для неопытного пользователя.
+            KevLight позволяет даже без особых знаний легко создать свой сайт.
+        </p>
+
+        <h2>2 Начало разработки</h2>
+        <p>
+            Чтобы начать разработку на KevLight нужно скачать <a href="https://github.com/Ckyrer/KevLight/releases/download/v1.0/KevLight.jar">последнюю версию</a>
+            и добавить её в свой проект.
+        </p>
+        
+        <h2>3 Hello, World!</h2>
+        <p>
+            Создадим Main.java со следующим содержимым:
+            <pre>
+                import ru.kvdl.kevlight.Responser;
+                import ru.kvdl.kevlight.Server;
+                import ru.kvdl.kevlight.annotations.KLRequestHandler;
+
+                import java.io.File;
+
+                public class Main {
+                    public static void main(String[] args) {
+                        Server server = new Server(new Main(), 5050);
+                        server.start();
+                    }
+                }
+            </pre>
+            <p>При запуске этого кода запустится сервер, использующий порт 5050. Однако при попытке зайти на localhost:5050 мы получим ошибку 404.</p>
+            <img src="/media/404.jpeg" alt="">
+            <p>Всё верно, ведь мы ещё не добавили в наш класс обработчик запроса, он выглядит так:</p>
+            <pre>
+                @KLRequestHandler(request = "")
+                public void homePage(Responser resp) {
+                    resp.sendString("Hello, World!");
+                }
+            </pre>
+            <p>@KLRequestHandler - аннотация, которая указывает на то, что метод нужно вызывать при запросе request</p>
+            
+        </p>
+
+    </div>
+</body>
+</html>

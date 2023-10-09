@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="KevLight">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../KevLight/out/artifacts/KevLight_jar/KevLight.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

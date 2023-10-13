@@ -34,7 +34,8 @@ public class Main {
         }
     }
 
-//    @KL404Handler
+
+    @KL404Handler
     @KLRequestHandler(request = "404")
     public void on404(Responser resp) {
         resp.sendString("Error 404 :(");

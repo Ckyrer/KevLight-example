@@ -14,55 +14,180 @@
     </header>
     <div class="main-column">
         <h2>1 Что такое KevLight</h2>
-        <p>Kevlight - это простой написанный на Java фреймворк.</p>
-        <p>
-            Уже существует много фреймворков на Java, однако среди них нет простого и легкодоступного для неопытного пользователя.
-            KevLight позволяет даже без особых знаний легко создать свой сайт.
-        </p>
+            <p>Kevlight - это простой написанный на Java фреймворк.</p>
+            <p>
+                Уже существует много фреймворков на Java, однако среди них нет простого и легкодоступного для неопытного пользователя.
+                KevLight позволяет даже без особых знаний легко создать свой сайт.
+            </p>
 
-        <h2>2 Начало разработки</h2>
-        <p>
-            Чтобы начать разработку на KevLight нужно скачать <a href="https://github.com/Ckyrer/KevLight/releases/download/v1.0/KevLight.jar">последнюю версию</a>
-            и добавить её в свой проект.
-        </p>
+            <h2>2 Начало разработки</h2>
+            <p>
+                Чтобы начать разработку на KevLight нужно скачать <a href="https://github.com/Ckyrer/KevLight/releases/download/v1.0/KevLight.jar">последнюю версию</a>
+                и добавить её в свой проект.
+            </p>
         
         <h2>3 Hello, World!</h2>
-        <p>Создадим Main.java со следующим содержимым:</p>
-        <pre>
-            import ru.kvdl.kevlight.Responser;
-            import ru.kvdl.kevlight.Server;
-            import ru.kvdl.kevlight.annotations.KLRequestHandler;
+            <p>Создадим Main.java со следующим содержимым:</p>
+            <pre>
+                import ru.kvdl.kevlight.Responser;
+                import ru.kvdl.kevlight.Server;
+                import ru.kvdl.kevlight.annotations.KLRequestHandler;
 
-            import java.io.File;
+                import java.io.File;
 
-            public class Main {
-                public static void main(String[] args) {
-                    Server server = new Server(new Main(), 5050);
-                    server.start();
+                public class Main {
+                    public static void main(String[] args) {
+                        Server server = new Server(new Main(), 5050);
+                        server.start();
+                    }
                 }
-            }
-        </pre>
-        <p>При запуске этого кода запустится сервер, использующий порт 5050. Однако при попытке зайти на localhost:5050 мы получим ошибку 404.</p>
-        <img src="/media/on404.png">
-        <p>Всё верно, ведь мы ещё не добавили в наш класс обработчик запроса, он выглядит так:</p>
-        <pre>
-            @KLRequestHandler(request = "")
-            public void homePage(Responser resp) {
-                resp.sendString("Hello, World!");
-            }
-        </pre>
-        <p>
-            @KLRequestHandler - аннотация, которая указывает на то, что метод нужно вызывать при определённом запросе
-           <li>String request - запрос, при котором вызывается метод</li>
-           <li>String requestType - тип запроса(по умолчанию "GET")</li>
-           <li>boolean startsWith - если true, то метод будет вызываться при запросах, которые начинаются с request.
-            К примеру, если request="media" и startsWith=true, то метод будет вызываться при запросах "media", "media/pages", "media/images/image.png"</li>
-        </p>
-        <p>
-            Если зайдём на сайт теперь, то увидим ожидаемый результат:
-        </p>
-        <img src="/media/helloworld.png">
+            </pre>
+            <p>При запуске этого кода запустится сервер, использующий порт 5050. Однако при попытке зайти на localhost:5050 мы получим ошибку 404.</p>
+            <img src="/media/on404.png">
+            <p>Всё верно, ведь мы ещё не добавили в наш класс обработчик запроса, он выглядит так:</p>
+            <pre>
+                @KLRequestHandler(request = "")
+                public void homePage(Responser resp) {
+                    resp.sendString("Hello, World!");
+                }
+            </pre>
+            <p>
+                @KLRequestHandler - аннотация, которая указывает на то, что метод нужно вызывать при определённом запросе
+            <li>String request - запрос, при котором вызывается метод</li>
+            <li>String requestType - тип запроса(по умолчанию "GET")</li>
+            <li>boolean startsWith - если true, то метод будет вызываться при запросах, которые начинаются с request.
+                К примеру, если request="media" и startsWith=true, то метод будет вызываться при запросах "media", "media/pages", "media/images/image.png"</li>
+            </p>
+            <p>
+                Если зайдём на сайт теперь, то увидим ожидаемый результат:
+            </p>
+            <img src="/media/helloworld.png">
 
+        <h2>3 Использование команд</h2>
+            <p>Одной из интересных возможностей KevLight является простое добавление обработчиков различных команд. Рассмотрим пример кода:</p>
+            <pre>
+                import ru.kvdl.kevlight.Responser;
+                import ru.kvdl.kevlight.Server;
+                import ru.kvdl.kevlight.annotations.KLRequestHandler;
+
+                import java.io.File;
+
+                public class Main {
+                    public static void main(String[] args) {
+                        Server server = new Server(new Main(), 5050);
+                        server.start();
+                    }
+                }
+
+                @KLCmdRequestHandler(command = "login")
+                public void loginCMD(Responser resp) {
+                    String[] args = resp.getArgs();
+                    if (args.length==2 && args[0].equals("admin") && args[1].equals("123")) {
+                        resp.sendString("1");
+                    } else {
+                        resp.sendString("0");
+                    }
+                }
+            </pre>
+            <p>Запрос-команда выглядит следующим образом: <code>{CMD_PREFIX}<>{CMD}<>{...args}</code></p>
+            <p>По умолчанию CMD_PREFIX="CMD", а элементы запрос разделяются между собой символами"<>"</p>
+            <p>
+                В вышеуказанном примере метод loginCMD() будет вызываться при запросе, начинающимся с "CMD<>login".
+                Однако перед ответом на запрос нужно будет проверить аргументы и их количество.
+            </p>
+            <p>
+                В итоге метод loginCMD будет отправлять "1", только при запросе "CMD<>login<>admin<>123, в остальных случаях "0".
+                Убедимся в этом на практике:
+            </p>
+            <img src="/media/onWrongArgs.png">
+            <img src="/media/onCorrectArgs.png">
+        <h2>4 DHOperator</h2>
+            <p>С помощью метода buildPage() класса DHOperator можно прочесть файлы index.html, main.js, style.css и собрать в одну строку.</p>
+            <p>В папке обязательно должен быть файл index.html, а также могут быть main.js и/или style.css.</p>
+            <p>Пример:</p>
+            <p><code>index.html</code></p>
+            <pre>
+            &lt;!DOCTYPE html&gt;
+            &lt;html lang=&quot;ru&quot;&gt;
+            &lt;head&gt;
+                &lt;meta charset=&quot;UTF-8&quot;&gt;
+                &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+                &lt;title&gt;Document&lt;/title&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+                some text
+            &lt;/body&gt;
+            &lt;/html&gt;
+            </pre>
+            <p><code>main.js</code></p>
+            <pre>
+            function test() {
+                // test code
+            }
+            </pre>
+            <p><code>style.css</code></p>
+            <pre>
+            .container {
+                margin: 20px;
+            }
+            </pre>
+
+            <p>Эти 3 файла будут объединены следующим образом:</p>
+            <pre>
+            &lt;!DOCTYPE html&gt;
+            &lt;html lang=&quot;ru&quot;&gt;
+            &lt;head&gt;
+                &lt;meta charset=&quot;UTF-8&quot;&gt;
+                &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+                &lt;title&gt;Document&lt;/title&gt;
+                &lt;style&gt;
+                    .container {
+                        margin: 20px;
+                    }
+                &lt;/style&gt;
+            &lt;/head&gt;
+            &lt;body&gt;
+                some text
+                &lt;script&gt;
+                    function test() {
+                        // test code
+                    }
+                &lt;/script&gt;
+            &lt;/body&gt;
+            &lt;/html&gt;
+            </pre>
+            <p>Привер использования DHOperator</p>
+            <pre>
+                import ru.kvdl.kevlight.Responser;
+                import ru.kvdl.kevlight.Server;
+                import ru.kvdl.kevlight.DHOperator;
+                import ru.kvdl.kevlight.annotations.KLRequestHandler;
+
+                import java.io.File;
+
+                // Получение пути к /resources в текущей папке
+                public static String PATH = new File("").getAbsolutePath()+"/resources/";
+
+                public class Main {
+                    public static void main(String[] args) {
+                        Server server = new Server(new Main(), 5050);
+                        server.start();
+                    }
+                }
+
+                @KLRequestHandler(request = "")
+                public void homePage(Responser resp) {
+                    resp.sendString(DHOperator.buildPage(PATH+"/pages/home"));
+                }
+            </pre>
+
+        <h2>5 @KL404Handler</h2>
+            <p>Эту аннотацию нужно использовать вместе с @KLResponseHandler()</p>
+            <p>
+                С помощью аннотация @KL404Handler можно указать метод,
+                который будет вызываться при ошибке 404 или при вызове responser.send404Response()
+            </p>
+            
     </div>
 
     <footer>
